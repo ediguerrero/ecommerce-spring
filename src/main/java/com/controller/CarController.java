@@ -41,4 +41,11 @@ public class CarController {
     public void deleteRoulette(   @RequestParam(value = "idCar") String idCar, @RequestParam(value = "idProduct", required = false) String idProduct) throws Exception {
         carService.deleteCarOrProduct(idCar, idProduct);
     }
+
+    @PutMapping("/modify-product")
+    public ResponseEntity modifyProduct(@RequestBody Product product,@RequestParam(value = "idCar") String idCar) throws Exception {
+        carService.updateProduct(product,idCar);
+        return new ResponseEntity<>("el producto ha sido modificado", HttpStatus.OK);
+
+    }
 }

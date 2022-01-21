@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -77,5 +74,25 @@ public class CarService {
         currentCar.setStatus(CarStatusEnum.COMPLETADO);
         carRepository.update(currentCar);
         return currentCar.getProducts().stream().map(x -> x.getPrice().doubleValue()).reduce(0.0, Double::sum);
+    }
+
+    public void updateProduct(Product product, String idCar) throws Exception {
+
+        Car currentCar = carRepository.findById(idCar);
+
+        Product productToUpdate = currentCar.getProducts().stream().filter(x -> x.getId().equals(product.getId())).findAny().get();
+
+        int index = currentCar.getProducts().indexOf(productToUpdate);
+
+        productToUpdate.setPrice(product.getPrice());
+        productToUpdate.setDiscount(product.isDiscount());
+        productToUpdate.setName(product.getName());
+        productToUpdate.setSku(product.getSku());
+
+        currentCar.getProducts().set(index, productToUpdate);
+
+        carRepository.update(currentCar);
+
+
     }
 }
