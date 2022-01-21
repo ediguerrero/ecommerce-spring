@@ -21,14 +21,14 @@ public class CarService {
     private CarRepository carRepository;
 
 
-    public void saveProducts(List<Product> products, String carId) {
+    public String saveProducts(List<Product> products, String carId) {
 
         products.stream().filter(Product::isDiscount).forEach(x -> {
             x.setPrice(x.getPrice().divide(BigDecimal.valueOf(2)));
         });
         if (Objects.isNull(carId)) {
             Car car = new Car(products, CarStatusEnum.PENDIENTE);
-            carRepository.save(car);
+            return carRepository.save(car);
         } else {
             Car currentCar = carRepository.findById(carId);
             if (Objects.isNull(currentCar.getProducts())) {
@@ -38,6 +38,7 @@ public class CarService {
                 currentCar.getProducts().addAll(products);
             }
             carRepository.update(currentCar);
+            return currentCar.getId();
         }
 
     }

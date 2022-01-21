@@ -25,8 +25,8 @@ public class CarController {
     @PostMapping("/save-products")
     public ResponseEntity createCar(@RequestBody List<Product> products,
                                     @RequestParam(value = "carId", required = false) String carId) {
-        carService.saveProducts(products, carId);
-        return new ResponseEntity<>("productos guardados con exito", HttpStatus.OK);
+        String id = carService.saveProducts(products, carId);
+        return new ResponseEntity<>("productos guardados con exito en el carrito con el id: " + id , HttpStatus.OK);
 
     }
 }
