@@ -1,7 +1,7 @@
 package com.config;
 
 
-import com.entity.Carrito;
+import com.entity.Car;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -14,8 +14,8 @@ public class RedisConfig {
     JedisConnectionFactory jedisConnectionFactory() { return new JedisConnectionFactory(); }
 
     @Bean
-    RedisTemplate<String, Carrito> redisTemplate(){
-        final RedisTemplate<String, Carrito> redis=new RedisTemplate<>();
+    RedisTemplate<String, Car> redisTemplate(){
+        final RedisTemplate<String, Car> redis=new RedisTemplate<>();
         redis.setConnectionFactory(jedisConnectionFactory());
 
         return redis;
