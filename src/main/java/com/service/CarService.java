@@ -23,7 +23,7 @@ public class CarService {
     private CarRepository carRepository;
 
 
-    public String saveProducts(List<Product> products, String carId) {
+    public String saveProducts(List<Product> products, String carId) throws Exception {
 
         products.stream().filter(Product::isDiscount).forEach(x -> {
             x.setPrice(x.getPrice().divide(BigDecimal.valueOf(2)));
@@ -52,15 +52,30 @@ public class CarService {
 
     }
 
-    public Map<String, Car> getAllCars() {
+    public Map<String, Car> getAllCars() throws Exception {
 
         return carRepository.finAll();
     }
 
-public double makeCheckout(String idCar){
-        Car currentCar= carRepository.findById(idCar);
+    public void deleteCarOrProduct(String idCar, String idProduct) throws Exception {
+        if (Objects.isNull(idProduct)) {
+            carRepository.delete(idCar);
+        } else {
+            Car currentCar = carRepository.findById(idCar);
+            Product productToDelete = currentCar.getProducts().stream().filter(x -> x.getId().equals(idProduct)).findAny().get();
+            if (Objects.isNull(productToDelete)) {
+                throw new Exception("el producto con el id " + idProduct + " no fue encontrado");
+            } else {
+                currentCar.getProducts().remove(productToDelete);
+                carRepository.update(currentCar);
+            }
+        }
+    }
+
+    public double makeCheckout(String idCar) throws Exception {
+        Car currentCar = carRepository.findById(idCar);
         currentCar.setStatus(CarStatusEnum.COMPLETADO);
         carRepository.update(currentCar);
-    return currentCar.getProducts().stream().map(x->x.getPrice().doubleValue()).reduce(0.0, Double::sum);
-}
+        return currentCar.getProducts().stream().map(x -> x.getPrice().doubleValue()).reduce(0.0, Double::sum);
+    }
 }

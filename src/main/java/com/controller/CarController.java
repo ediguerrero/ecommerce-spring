@@ -18,22 +18,27 @@ public class CarController {
     private CarService carService;
 
     @GetMapping("/cars")
-    public ResponseEntity findAll() {
+    public ResponseEntity findAll() throws Exception {
         return new ResponseEntity(carService.getAllCars(), HttpStatus.OK);
     }
 
     @PostMapping("/save-products")
     public ResponseEntity createCar(@RequestBody List<Product> products,
-                                    @RequestParam(value = "carId", required = false) String carId) {
+                                    @RequestParam(value = "carId", required = false) String carId) throws Exception {
         String id = carService.saveProducts(products, carId);
         return new ResponseEntity<>("productos guardados con exito en el carrito con el id: " + id, HttpStatus.OK);
 
     }
 
     @PutMapping("/checkout")
-    public ResponseEntity createCar(@RequestParam(value = "carId", required = false) String carId) {
+    public ResponseEntity createCar(@RequestParam(value = "carId", required = false) String carId) throws Exception {
 
         return new ResponseEntity<>("total a pagar: " + carService.makeCheckout(carId), HttpStatus.OK);
 
+    }
+
+    @DeleteMapping("/cars")
+    public void deleteRoulette(   @RequestParam(value = "idCar") String idCar, @RequestParam(value = "idProduct", required = false) String idProduct) throws Exception {
+        carService.deleteCarOrProduct(idCar, idProduct);
     }
 }

@@ -6,9 +6,9 @@ import java.util.Map;
 
 public interface CarRepository
 {
-	Map<String, Car> finAll();
+	Map<String, Car> finAll() throws Exception;
 
-	Car findById(String id) ;
+	Car findById(String id) throws Exception;
 
 	String save(Car car);
 
