@@ -26,7 +26,14 @@ public class CarController {
     public ResponseEntity createCar(@RequestBody List<Product> products,
                                     @RequestParam(value = "carId", required = false) String carId) {
         String id = carService.saveProducts(products, carId);
-        return new ResponseEntity<>("productos guardados con exito en el carrito con el id: " + id , HttpStatus.OK);
+        return new ResponseEntity<>("productos guardados con exito en el carrito con el id: " + id, HttpStatus.OK);
+
+    }
+
+    @PutMapping("/checkout")
+    public ResponseEntity createCar(@RequestParam(value = "carId", required = false) String carId) {
+
+        return new ResponseEntity<>("total a pagar: " + carService.makeCheckout(carId), HttpStatus.OK);
 
     }
 }

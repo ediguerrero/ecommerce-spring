@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -49,7 +50,7 @@ public class CarRepositoryImpl implements CarRepository {
 
     @Override
     public void update(Car car) {
-        car.getProducts().forEach(x -> {
+        car.getProducts().stream().filter(x-> Objects.isNull(x.getId())).forEach(x -> {
             String id = UUID.randomUUID().toString();
             x.setId(id);
         });
