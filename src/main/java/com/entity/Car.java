@@ -10,10 +10,16 @@ import java.util.List;
 
 
 public class Car implements Serializable {
-    @Id
+
+    private static final long serialVersionUID = -6835059655510577819L;
     private String id;
     private List<Product> products;
     private CarStatusEnum status;
+
+    public Car(List<Product> products,CarStatusEnum status){
+        this.products= products;
+        this.status= status;
+    }
 
     public String getId() {
         return id;

@@ -6,12 +6,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class Product implements Serializable {
-    @Id
     private String id;
-    private String nombre;
+    private String name;
     private String sku;
-    private BigDecimal precio;
-    private boolean descuento;
+    private BigDecimal price;
+    private boolean discount;
 
     public String getId() {
         return id;
@@ -21,12 +20,12 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSku() {
@@ -37,19 +36,25 @@ public class Product implements Serializable {
         this.sku = sku;
     }
 
-    public BigDecimal getPrecio() {
-        return precio;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setPrecio(BigDecimal precio) {
-        this.precio = precio;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
-    public boolean isDescuento() {
-        return descuento;
+    public boolean isDiscount() {
+        return discount;
     }
 
-    public void setDescuento(boolean descuento) {
-        this.descuento = descuento;
+    public void setDiscount(boolean discount) {
+        this.discount = discount;
+    }
+
+    private void validateDiscount(){
+        if(this.discount){
+            this.price = price.divide(BigDecimal.valueOf(2));
+        }
     }
 }

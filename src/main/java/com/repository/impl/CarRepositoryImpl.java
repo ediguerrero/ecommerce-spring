@@ -32,10 +32,14 @@ public class CarRepositoryImpl implements CarRepository {
     public Car findById(String id) { return (Car) hashOperations.get(KEY, id); }
 
     @Override
-    public String save(Car roulette) {
+    public String save(Car car) {
+        car.getProducts().forEach(x -> {
+            String id = UUID.randomUUID().toString();
+            x.setId(id);
+        });
         String id= UUID.randomUUID().toString();
-        roulette.setId(id);
-        hashOperations.put(KEY, id, roulette);
+        car.setId(id);
+        hashOperations.put(KEY, id, car);
 
         return id;
     }
@@ -44,6 +48,11 @@ public class CarRepositoryImpl implements CarRepository {
     public void delete(String id) {	hashOperations.delete(KEY, id);	}
 
     @Override
-    public void update(Car roulette) {	hashOperations.put(KEY, roulette.getId(), roulette); }
+    public void update(Car car) {
+        car.getProducts().forEach(x -> {
+            String id = UUID.randomUUID().toString();
+            x.setId(id);
+        });
+        hashOperations.put(KEY, car.getId(), car); }
 
 }

@@ -10,7 +10,7 @@ public interface CarRepository
 
 	Car findById(String id) ;
 
-	String save(Car roulette);
+	String save(Car car);
 
 	void delete(String id);
 
